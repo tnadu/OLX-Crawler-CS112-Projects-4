@@ -1,11 +1,40 @@
 import requests
+from bs4 import BeautifulSoup
 import concurrent.futures
 import re
-from bs4 import BeautifulSoup
 
 pages = [f'https://www.olx.ro/imobiliare/?page={i}' for i in range(1, 26)]
-hm = 0
 
+
+def land(title, description):
+    regex=re.compile('teren', re.IGNORECASE)
+    if re.search(regex, title) or re.search(regex, description):
+        return True
+    return False
+
+
+def surface(title, description):
+    regexMp=re.compile(r'\d+\s*m(p|\^?2|p[aă]tra[tţ]i*|etr[iu]+\s*p|etr[iu]+\s*p[aă]tra[tţ]i*)', re.IGNORECASE)
+    regexHa=re.compile(r'\d+\s*h(a|ectar[ie]*)', re.IGNORECASE)
+
+    if re.search(regexMp, title):
+        number=re.compile('\d+')
+        value=int(number.search(regexMp.search(title).group()).group())
+        return f'{value} m^2'
+    elif re.search(regexMp, description):
+        number = re.compile('\d+')
+        value = int(number.search(regexMp.search(description).group()).group())
+        return f'{value} m^2'
+    elif re.search(regexHa, title):
+        number = re.compile('\d+')
+        value = int(number.search(regexHa.search(title).group()).group())
+        return f'{value} ha'
+    elif re.search(regexHa, description):
+        number = re.compile('\d+')
+        value = int(number.search(regexHa.search(description).group()).group())
+        return f'{value} ha'
+
+    return ''
 
 def adScraper(ad):
     # global counter
@@ -20,6 +49,8 @@ def adScraper(ad):
         description = description.find(class_='e1r1048u1').text
         # print(description)
         # counter += 1
+
+
 
 
 for page in pages:
