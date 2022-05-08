@@ -14,23 +14,20 @@ def land(title, description):
 
 
 def surface(title, description):
-    regexMp=re.compile(r'\d+\s*m(p|\^?2|p[aă]tra[tţ]i*|etr[iu]+\s*p|etr[iu]+\s*p[aă]tra[tţ]i*)', re.IGNORECASE)
+    regexMp=re.compile(r'\d+\s*m(p|\^?2|²|p[aă]tra[tţ]i*|etr[iu]+\s*p|etr[iu]+\s*p[aă]tra[tţ]i*)', re.IGNORECASE)
     regexHa=re.compile(r'\d+\s*h(a|ectar[ie]*)', re.IGNORECASE)
+    number = re.compile('\d+')
 
-    if re.search(regexMp, title):
-        number=re.compile('\d+')
+    if regexMp.search(title):
         value=int(number.search(regexMp.search(title).group()).group())
         return f'{value} m^2'
-    elif re.search(regexMp, description):
-        number = re.compile('\d+')
+    elif regexMp.search(description):
         value = int(number.search(regexMp.search(description).group()).group())
         return f'{value} m^2'
-    elif re.search(regexHa, title):
-        number = re.compile('\d+')
+    elif regexHa.search(title):
         value = int(number.search(regexHa.search(title).group()).group())
         return f'{value} ha'
-    elif re.search(regexHa, description):
-        number = re.compile('\d+')
+    elif regexHa.search(description):
         value = int(number.search(regexHa.search(description).group()).group())
         return f'{value} ha'
 
@@ -49,6 +46,9 @@ def adScraper(ad):
         description = description.find(class_='e1r1048u1').text
         # print(description)
         # counter += 1
+
+    # if rooms(title, description)==1:
+    #     singleRooms.append(ad)
 
 
 
