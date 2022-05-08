@@ -3,13 +3,13 @@ import re
 title = ''
 description = ''
 
-def singleRoom(title, description):
+def isSingleRoom(title, description):
     regex=re.compile(r'(garsonier[aăe]|studio)', re.IGNORECASE)
     if regex.search(title) or regex.search(description):
         return True
     return False
 
-def yearOfConstruction(title, description):
+def getYearOfConstruction(title, description):
     regex=re.compile(r'an(ul)?\s*(20[12]\d|19\d{2})', re.IGNORECASE)
     number = re.compile('\d+')
 
@@ -20,7 +20,7 @@ def yearOfConstruction(title, description):
 
     return False
 
-def rental(title, description):
+def isForRental(title, description):
     regex=re.compile(r'([iî]n)?\s*chiri(e|ez|at|[aă]m|ere)', re.IGNORECASE)
     if regex.search(title) or regex.search(description):
         return True
