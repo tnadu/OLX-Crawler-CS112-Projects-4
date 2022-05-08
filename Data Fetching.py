@@ -3,11 +3,19 @@ from bs4 import BeautifulSoup
 import concurrent.futures
 import re
 
+
 pages = [f'https://www.olx.ro/imobiliare/?page={i}' for i in range(1, 26)]
 apartments=[]
 singleRooms=[]
 houses=[]
 land=[]
+
+
+def isSingleRoom(title, description):
+    regex=re.compile(r'(garsonier[aăe]|studio)', re.IGNORECASE)
+    if regex.search(title) or regex.search(description):
+        return True
+    return False
 
 def isLand(title, description):
     regex=re.compile('teren', re.IGNORECASE)
@@ -15,6 +23,24 @@ def isLand(title, description):
         return True
     return False
 
+
+def isForRental(title, description):
+    regex=re.compile(r'([iî]n)?\s*chiri(e|ez|at|[aă]m|ere)', re.IGNORECASE)
+    if regex.search(title) or regex.search(description):
+        return True
+    return False
+
+
+def getYearOfConstruction(title, description):
+    regex=re.compile(r'an(ul)?\s*(20[12]\d|19\d{2})', re.IGNORECASE)
+    number = re.compile('\d+')
+
+    if regex.search(title):
+        return int(number.search(regex.search(title).group()).group())
+    elif re.search(regex, description):
+        return int(number.search(regex.search(description).group()).group())
+
+    return False
 
 def getSurface(title, description):
     regexMp=re.compile(r'\d+\s*m(p|\^?2|²|p[aă]tra[tţ]i*|etr[iu]+\s*p|etr[iu]+\s*p[aă]tra[tţ]i*)', re.IGNORECASE)
