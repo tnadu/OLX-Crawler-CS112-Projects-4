@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import concurrent.futures
 import re
+import time
 
 # Hard-coded list of OLX URLs
 pages = [f'https://www.olx.ro/imobiliare/?page={i}' for i in range(1, 26)]
@@ -216,6 +217,11 @@ def adScraper(ad):
         # print(description)
         # counter += 1
 
+print('Crawling and filtering initiated.')
+time.sleep(1.5)
+print('\nThe process is expected to take about a minute.')
+time.sleep(1.5)
+print('\nPlease wait...')
 
 for page in pages:
     # global counter
@@ -240,3 +246,25 @@ for page in pages:
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(ads)) as executor:
         executor.map(adScraper, ads)
     # print(counter)
+
+print('Done!')
+time.sleep(2)
+
+print('\nApartments:\n')
+for apartment in apartments:
+    print(f'\t{apartment}')
+time.sleep(2)
+
+print('\nSingle Rooms:\n')
+for singleRoom in singleRooms:
+    print(f'\t{singleRoom}')
+time.sleep(2)
+
+print('\nHouses:\n')
+for house in houses:
+    print(f'\t{house}')
+time.sleep(2)
+
+print('\nLand:\n')
+for pieceOfLand in land:
+    print(f'\t{pieceOfLand}')
