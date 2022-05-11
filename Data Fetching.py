@@ -15,6 +15,13 @@ land=[]
 
 # Modular functions for each and every regex search performed
 # Category REGEX
+def isHouse(title, description):
+    regex = re.compile('vil[aă]|cas[aă]|duplex|house', re.IGNORECASE)
+    if regex.search(title) or regex.search(description):
+        return True
+    return False
+
+
 def isApartment(title, description):
     regex = re.compile(r'apart[ae]\*ment|ap\s+|apart\s+|studio', re.IGNORECASE)
     if re.search(regex, title) or re.search(regex, description):
@@ -45,6 +52,13 @@ def isForSale(title, description):
 
 def isForRental(title, description):
     regex=re.compile(r'([iî]n)?\s*chiri(e|ez|at|[aă]m|ere)', re.IGNORECASE)
+    if regex.search(title) or regex.search(description):
+        return True
+    return False
+
+
+def isForExchange(title, description):
+    regex = re.compile('schimb|troc', re.IGNORECASE)
     if regex.search(title) or regex.search(description):
         return True
     return False
