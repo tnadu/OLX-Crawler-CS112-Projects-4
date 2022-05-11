@@ -21,6 +21,7 @@ def isApartment(title, description):
         return True
     return False
 
+
 def isSingleRoom(title, description):
     regex=re.compile(r'(garsonier[aăe]|studio)', re.IGNORECASE)
     if regex.search(title) or regex.search(description):
@@ -41,6 +42,7 @@ def isForSale(title, description):
         return True
     return False
 
+
 def isForRental(title, description):
     regex=re.compile(r'([iî]n)?\s*chiri(e|ez|at|[aă]m|ere)', re.IGNORECASE)
     if regex.search(title) or regex.search(description):
@@ -58,6 +60,7 @@ def getRooms(title, description):
         return int("".join([x for x in regex.findall(description)[0] if x.isdigit()]))
 
     return False
+
 
 def getYearOfConstruction(title, description):
     regex=re.compile(r'an(ul)?\s*(20[12]\d|19\d{2})', re.IGNORECASE)
